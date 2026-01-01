@@ -1,68 +1,480 @@
+/* =====================
+   TOKENS / BASE
+===================== */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --text: #111827;
+  --muted: #6b7280;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --brand: #4f46e5;
+  --brand-hover: #4338ca;
+
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --border: #e5e7eb;
+
+  --shadow-card: 0 14px 30px rgba(15, 23, 42, 0.1);
+  --shadow-hero: 0 18px 45px rgba(15, 23, 42, 0.12);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* =====================
+   RESET
+===================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-a:hover {
-  color: #535bf2;
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-sans);
+  color: var(--text);
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background: var(--bg);
+  line-height: 1.4;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Make form elements inherit the same font everywhere */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+::placeholder {
+  color: #9ca3af;
+  opacity: 1;
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--brand-hover);
+}
+
+/* =====================
+   LAYOUT
+===================== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+/* =====================
+   NAVBAR
+===================== */
+.navbar {
+  border-bottom: 1px solid var(--border);
+  background: #ffffffcc;
+  backdrop-filter: blur(8px);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--brand);
+}
+
+.navbar-link {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+.navbar-link:hover {
+  color: var(--brand);
+}
+
+.navbar-user {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+/* =====================
+   BUTTONS
+===================== */
+.btn {
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: white;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+}
+.btn-primary:hover {
+  background: var(--brand-hover);
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-outline:hover {
+  border-color: #cbd5e1;
+}
+
+/* =====================
+   CARD (shared)
+===================== */
+.card {
+  background: var(--card);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* =====================
+   HOME
+===================== */
+.home {
+  padding-top: 2rem;
+}
+
+.hero {
+  margin-top: 2rem;
+  padding: 3rem 2rem;
+  border-radius: 1.5rem;
+  background: var(--card);
+  box-shadow: var(--shadow-hero);
+  text-align: center;
+}
+
+.home-logo {
+  width: 220px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+/* =====================
+   AUTH (LOGIN / REGISTER)
+===================== */
+.auth-page {
+  padding-top: 2rem;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  max-width: 420px;
+  width: 100%;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+.auth-subtitle {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth-submit {
+  margin-top: 0.5rem;
+}
+
+.auth-footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* =====================
+   FORM FIELDS
+===================== */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.form-field span {
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  border-radius: 0.75rem;
+  border: 1px solid #d1d5db;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+.form-field textarea {
+  line-height: 1.4;
+  resize: vertical;
+}
+
+/* =====================
+   TASKS
+===================== */
+.tasks-page {
+  background: rgba(79, 70, 229, 0.18);
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 800px) {
+  .tasks-grid {
+    grid-template-columns: 1fr;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+.tasks-grid > .card {
+  height: 520px;
+}
+
+/* Left card */
+.task-form-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.task-form {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.task-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+/* Right card */
+.tasks-list-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tasks-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Task item */
+.task-item {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.task-title {
+  font-weight: 700;
+}
+
+.task-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.task-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Empty state */
+.empty-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-title {
+  font-weight: 800;
+  color: #374151;
+}
+
+.empty-subtitle {
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* =====================
+   BADGES
+===================== */
+.badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.badge-TODO {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1d4ed8;
+}
+.badge-IN_PROGRESS {
+  background: rgba(245, 158, 11, 0.18);
+  color: #92400e;
+}
+.badge-DONE {
+  background: rgba(34, 197, 94, 0.18);
+  color: #166534;
+}
+
+/* =====================
+   PROFILE (ME)
+===================== */
+.profile-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-title {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.profile-field-full {
+  grid-column: span 2;
+}
+
+.profile-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.profile-value {
+  font-weight: 600;
+}
+
+/* =====================
+   FEEDBACK
+===================== */
+.error-text {
+  color: #b91c1c;
+}
+
+.success-text {
+  color: #15803d;
 }
