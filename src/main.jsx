@@ -7,6 +7,8 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Me from "./pages/Me.jsx";
 import Tasks from "./pages/Tasks.jsx";
+import AdminUsers from "./pages/AdminUsers.jsx";
+
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./index.css";
@@ -37,9 +39,19 @@ createRoot(document.getElementById("root")).render(
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute requiredRole="ROLE_ADMIN">
+              <AdminUsers />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
+
 
 

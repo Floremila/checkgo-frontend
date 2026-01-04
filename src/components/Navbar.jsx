@@ -1,6 +1,14 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { logout } from "../services/authService";
+
+function safeGetRoles() {
+  try {
+    return JSON.parse(localStorage.getItem("roles") || "[]");
+  } catch {
+    return [];
+  }
+}
 
 function Navbar() {
   const navigate = useNavigate();
@@ -8,11 +16,13 @@ function Navbar() {
 
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [roles, setRoles] = useState(safeGetRoles());
 
   // Re-check auth state when route changes
   useEffect(() => {
     setToken(localStorage.getItem("accessToken"));
     setUsername(localStorage.getItem("username"));
+    setRoles(safeGetRoles());
   }, [location.pathname]);
 
   // Re-check auth state if changed in another tab
@@ -20,17 +30,24 @@ function Navbar() {
     const onStorage = () => {
       setToken(localStorage.getItem("accessToken"));
       setUsername(localStorage.getItem("username"));
+      setRoles(safeGetRoles());
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  const isAdmin = roles.includes("ROLE_ADMIN");
+
   const handleLogout = () => {
     logout();
     setToken(null);
     setUsername(null);
+    setRoles([]);
     navigate("/");
   };
+
+  const navClass = ({ isActive }) =>
+    `navbar-link ${isActive ? "navbar-link-active" : ""}`;
 
   return (
     <header className="navbar">
@@ -42,12 +59,19 @@ function Navbar() {
 
           {token && (
             <>
-              <Link to="/tasks" className="navbar-link">
+              <NavLink to="/tasks" className={navClass}>
                 Tasks
-              </Link>
-              <Link to="/me" className="navbar-link">
+              </NavLink>
+
+              <NavLink to="/me" className={navClass}>
                 My Profile
-              </Link>
+              </NavLink>
+
+              {isAdmin && (
+                <NavLink to="/admin/users" className={navClass}>
+                  Admin
+                </NavLink>
+              )}
             </>
           )}
         </div>
@@ -55,12 +79,12 @@ function Navbar() {
         <div className="navbar-right">
           {!token ? (
             <>
-              <Link to="/login" className="navbar-link">
+              <NavLink to="/login" className={navClass}>
                 Login
-              </Link>
-              <Link to="/register" className="navbar-link">
+              </NavLink>
+              <NavLink to="/register" className={navClass}>
                 Register
-              </Link>
+              </NavLink>
             </>
           ) : (
             <>
