@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getMyTasks,
   createTask,
@@ -15,18 +15,20 @@ function Tasks() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("TODO");
   const [dueDate, setDueDate] = useState("");
-
   const [editingTaskId, setEditingTaskId] = useState(null);
 
   useEffect(() => {
     loadTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loadTasks() {
     try {
       setLoading(true);
+      setErrorMsg("");
+
       const data = await getMyTasks();
-      setTasks(data);
+      setTasks(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error(error);
       setErrorMsg("Failed to load tasks.");
@@ -64,6 +66,7 @@ function Tasks() {
         const created = await createTask(payload);
         setTasks((prev) => [...prev, created]);
       }
+
       resetForm();
     } catch (error) {
       console.error(error);
@@ -98,11 +101,13 @@ function Tasks() {
     return "Todo";
   };
 
-  const sortedTasks = [...tasks].sort((a, b) => {
-    const da = a.dueDate ? new Date(a.dueDate) : new Date("9999-12-31");
-    const db = b.dueDate ? new Date(b.dueDate) : new Date("9999-12-31");
-    return da - db;
-  });
+  const sortedTasks = useMemo(() => {
+    return [...tasks].sort((a, b) => {
+      const da = a.dueDate ? new Date(a.dueDate) : new Date("9999-12-31");
+      const db = b.dueDate ? new Date(b.dueDate) : new Date("9999-12-31");
+      return da - db;
+    });
+  }, [tasks]);
 
   if (loading) {
     return <p className="container">Loading tasks…</p>;
@@ -114,18 +119,12 @@ function Tasks() {
         {errorMsg && <p className="error-text">{errorMsg}</p>}
 
         <div className="tasks-grid">
-         
           {/* LEFT CARD */}
           <section className="card task-form-card">
-
-
             <form onSubmit={handleSubmit} className="task-form">
               <label className="form-field">
                 <span>Title</span>
-                <input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+                <input value={title} onChange={(e) => setTitle(e.target.value)} />
               </label>
 
               <label className="form-field">
@@ -140,10 +139,7 @@ function Tasks() {
 
               <label className="form-field">
                 <span>Status</span>
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                >
+                <select value={status} onChange={(e) => setStatus(e.target.value)}>
                   <option value="TODO">Todo</option>
                   <option value="IN_PROGRESS">In progress</option>
                   <option value="DONE">Done</option>
@@ -160,7 +156,7 @@ function Tasks() {
               </label>
 
               <div className="task-form-actions">
-              <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   {editingTaskId ? "Save changes" : "Create task"}
                 </button>
 
@@ -179,7 +175,6 @@ function Tasks() {
 
           {/* RIGHT CARD */}
           <section className="card tasks-list-card">
-
             {sortedTasks.length === 0 ? (
               <div className="empty-state">
                 <p className="empty-title">You don’t have any tasks yet</p>
@@ -233,4 +228,5 @@ function Tasks() {
 }
 
 export default Tasks;
+
 

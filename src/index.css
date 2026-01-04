@@ -41,7 +41,6 @@ body {
   line-height: 1.4;
 }
 
-/* Make form elements inherit the same font everywhere */
 button,
 input,
 select,
@@ -118,6 +117,11 @@ a:hover {
 .navbar-user {
   font-size: 0.95rem;
   color: #4b5563;
+}
+
+.navbar-link-active {
+  color: var(--brand);
+  font-weight: 500;
 }
 
 /* =====================
@@ -328,7 +332,6 @@ a:hover {
   margin-top: auto;
 }
 
-/* Right card */
 .tasks-list-card {
   display: flex;
   flex-direction: column;
@@ -345,7 +348,6 @@ a:hover {
   gap: 0.75rem;
 }
 
-/* Task item */
 .task-item {
   background: #ffffff;
   border-radius: 1rem;
@@ -371,7 +373,6 @@ a:hover {
   gap: 0.4rem;
 }
 
-/* Empty state */
 .empty-state {
   height: 100%;
   display: flex;
@@ -478,3 +479,152 @@ a:hover {
 .success-text {
   color: #15803d;
 }
+
+/* =====================
+   ADMIN
+===================== */
+.admin-page {
+  background: rgba(79, 70, 229, 0.18);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.admin-grid > .card {
+  height: 520px;
+}
+
+.panel-header {
+  margin-bottom: 1rem;
+}
+
+.panel-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.panel-subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.admin-stats {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Espacio entre input y botón */
+.admin-refresh-btn {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-list-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-users-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0.5rem;
+  padding-right: 0.75rem;
+
+  display: grid;
+  gap: 1rem;
+
+  align-content: start;
+  align-items: start;
+}
+
+.admin-users-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-users-list::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.admin-users-list .task-card {
+  background: #fff;
+  border-radius: 1.25rem;
+
+  height: fit-content;
+  align-self: start;
+
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+
+  padding: 1.25rem 1.5rem;
+}
+
+.admin-users-list .task-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.admin-id {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-left: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-grid > .card {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .navbar-left {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .navbar-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-link {
+    font-size: 0.95rem;
+  }
+
+  .navbar-user {
+    font-size: 0.9rem;
+  }
+
+  .navbar .btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+  
+
+
+
